@@ -6,7 +6,7 @@ function opencon(): PDO {
     return new PDO(
 
 dsn:'mysql:host=localhost;
-    dbname=dbs_appjkfg',
+    dbname=dbs_app_jkfg',
     username: 'root',
     password: '');
 }
@@ -28,5 +28,13 @@ try {
     $con->rollBack();
     return false;
 }
+}
+
+function isUsernameExist($username){
+    $con= $this->opencon();
+    $stmt=$con->prepare("SELECT COUNT(*) FROM admin Where admin_username=?");
+    $stmt->execute([$username]);
+    $count= $stmt->fetchColumn();
+    return $count > 0;
 }
 }
