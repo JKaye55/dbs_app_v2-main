@@ -6,20 +6,20 @@ function opencon(): PDO {
     return new PDO(
 
 dsn:'mysql:host=localhost;
-    dbname=dbs_app_jkfg',
+    dbname=dbs_appjkfg',
     username: 'root',
     password: '');
 }
 
-function signupUser($firstname,$lastname,$username,$password){
+function signupUser($firstname, $lastname, $username, $email, $password){
 
 $con=$this->opencon();
 
 try {
     $con->beginTransaction();
-    $stmt= $con->prepare("INSERT INTO Admin (admin_FN, admin_LN, admin_username, admin_password) VALUES (?, ? ,? ,?)");
+    $stmt= $con->prepare("INSERT INTO Admin (admin_FN, admin_LN, admin_username, admin_email, admin_password) VALUES (?, ? ,?,?,?)");
 
-    $stmt->execute([$firstname,$lastname,$username,$password]);
+    $stmt->execute([$firstname,$lastname,$username, $email, $password]);
     $userID=$con->lastInsertId();
     $con->commit();
     return $userID;
@@ -34,6 +34,14 @@ function isUsernameExist($username){
     $con= $this->opencon();
     $stmt=$con->prepare("SELECT COUNT(*) FROM admin Where admin_username=?");
     $stmt->execute([$username]);
+    $count= $stmt->fetchColumn();
+    return $count > 0;
+}
+
+function isEmailExist($email){
+    $con= $this->opencon();
+    $stmt=$con->prepare("SELECT COUNT(*) FROM admin Where admin_email=?");
+    $stmt->execute([$email]);
     $count= $stmt->fetchColumn();
     return $count > 0;
 }
