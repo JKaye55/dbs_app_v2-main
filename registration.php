@@ -6,7 +6,7 @@ session_start();
 require_once('classes/database.php');
 $con = new database();
  
-$sweetAlertConfig = ""; //Initialize SweetAlert script variable
+$sweetAlertConfig = ""; //Initialize SweetAlert script variableHELLO
  
 if (isset($_POST['register'])) {
  
